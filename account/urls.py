@@ -1,6 +1,5 @@
-from django.conf.urls import url, include
 from rest_framework import routers
-from account.serialzers import UserSerializer
+from account.views import UserViewSet
 
 router = routers.DefaultRouter()
-router.register(r'user', UserSerializer)
+router.register(r'user', UserViewSet)

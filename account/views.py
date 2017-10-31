@@ -1,16 +1,18 @@
-from django.shortcuts import render
 from rest_framework.response import Response
 from account.models import User
-
+from rest_framework.decorators import api_view
+from rest_framework import viewsets
+from account.serialzers import UserSerializer
 
 
 # Create your views here.
 
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-def login(request,phone):
-    try:
-        user = User.objects.get(phone=phone)
-        return Response('用户已存在,登录成功.')
-    except User.DoesNotExist:
-        User.objects.create(phone=phone)
-        return Response('用户不存在,创建新账号.')
+@api_view(['POST'])
+def login(request):
+    data = request.data
+    print(data)
+    return Response({'data': 0, 'msg': '登录成功'})
