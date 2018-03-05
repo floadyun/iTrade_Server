@@ -1,10 +1,9 @@
 from rest_framework.response import Response
 from account.models import User
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.parsers import JSONParser
 from rest_framework import viewsets
 from account.serialzers import UserSerializer
-
-
 # Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -12,7 +11,25 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 @api_view(['POST'])
+@parser_classes((JSONParser,))
 def login(request):
-    data = request.data
-    print(data)
-    return Response({'data': 0, 'msg': '登录成功'})
+    username = request.query_params['user_name']
+    try:
+        user = User.objects.get(name=username)
+        return Response({'data': user.name, 'msg': '登录成功'})
+    except Exception:
+        return Response({'message': '用户不存在'})
+
+@api_view(['POST'])
+def register(request):
+    username = request.query_params['user_name']
+    password = request.query_params['password']
+    try:
+        user = User.objects.get(name=username)
+        return Response({'msg': '用户已存在'})
+    except Exception:
+        user = User()
+        user.name = username
+        user.passWord = password
+        user.save()
+        return Response({'msg': '注册成功'})

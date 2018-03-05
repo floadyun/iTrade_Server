@@ -1,5 +1,5 @@
 from rest_framework import routers
-from account.views import UserViewSet
+from account import views
 
 router = routers.DefaultRouter()
-router.register(r'user', UserViewSet)
+router.register(r'', views.UserViewSet)
