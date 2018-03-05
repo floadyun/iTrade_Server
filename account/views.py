@@ -14,10 +14,14 @@ class UserViewSet(viewsets.ModelViewSet):
 @parser_classes((JSONParser,))
 def login(request):
     username = request.query_params['user_name']
+    result = dict()
     try:
         user = User.objects.get(name=username)
-        return Response({'data': user.name, 'msg': '登录成功'})
-    except Exception:
+        result['user_name'] = user.name
+        result['userInfo'] = UserSerializer(user).data
+        result['msg'] = '登录成功'
+        return Response(result)
+    except User.DoesNotExist:
         return Response({'message': '用户不存在'})
 
 @api_view(['POST'])
@@ -27,7 +31,7 @@ def register(request):
     try:
         user = User.objects.get(name=username)
         return Response({'msg': '用户已存在'})
-    except Exception:
+    except User.DoesNotExist:
         user = User()
         user.name = username
         user.passWord = password
