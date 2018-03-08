@@ -3,8 +3,6 @@ from strategy.models import Strategy
 from strategy.serialzers import StrategySerializers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.http import HttpResponse, JsonResponse
-
 
 # Create your views here.
 class StrategyViewSet(viewsets.ModelViewSet):
