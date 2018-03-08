@@ -1,7 +1,6 @@
 from rest_framework.response import Response
 from account.models import User
-from rest_framework.decorators import api_view, parser_classes
-from rest_framework.parsers import JSONParser
+from rest_framework.decorators import api_view
 from rest_framework import viewsets
 from account.serialzers import UserSerializer
 # Create your views here.
@@ -11,7 +10,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 @api_view(['POST'])
-@parser_classes((JSONParser,))
 def login(request):
     username = request.query_params['user_name']
     result = dict()

@@ -15,17 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from account.urls import router
-from account import views
-from strategy.urls import router
-from strategy.views import addStrategy, getStrategyList
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'api/account/', include(router.urls)),
-    url(r'api/account/login', views.login),
-    url(r'api/account/register', views.register),
-    url(r'api/strategy/', include(router.urls)),
-    url(r'api/strategy/addStrategy', addStrategy),
-    url(r'api/strategy/getStrategyList', getStrategyList)
+    url(r'api/account/', include('account.urls')),
+    url(r'api/strategy/', include('strategy.urls'))
 ]
